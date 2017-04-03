@@ -1,0 +1,52 @@
+﻿<Window x:Class="Michelotti.AzureEnvironmentSelector.EnvSelectorDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Michelotti.AzureEnvironmentSelector"
+             Height="200" Width="517" ShowInTaskbar="False" ResizeMode="NoResize"
+             Title="Azure Environment Selector"
+             WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
+    
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Name="lblMode" Grid.Row="0" HorizontalAlignment="Center" Content="Connected to: Azure Commercial" FontSize="20" Margin="2"></Label>
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <Label Margin="10">Azure Environment:</Label>
+            <ComboBox x:Name="cbEnv" Text="(Select)" Margin="10" Width="200" SelectedValuePath="Content" SelectionChanged="cbEnv_SelectionChanged">
+                <ComboBoxItem>Azure Commercial</ComboBoxItem>
+                <ComboBoxItem>Azure Government</ComboBoxItem>
+                <!--<ComboBoxItem>Azure Germany</ComboBoxItem>
+                <ComboBoxItem>Azure China</ComboBoxItem>-->
+            </ComboBox>
+        </StackPanel>
+
+        <DockPanel Grid.Row="2" >
+            <Button Margin="4,10,4,10" DockPanel.Dock="Right" Width="60" Click="Button_Click">Close</Button>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Name="tbResults" DockPanel.Dock="Left" Width="360" Background="LightYellow"  TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Center" Margin="4" Padding="2">
+                    Pending change to Azure {currentModeText} mode.<LineBreak/>
+                    You must restart Visual Studio for these changes to take effect.
+                </TextBlock>
+                <Button Name="btnRestart" Margin="4,10,4,10" Padding="8,0,8,0" Width="60" Click="btnRestart_Click">Restart</Button>
+            </StackPanel>
+        </DockPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3">
+            <TextBlock Margin="10,0,0,0">
+                <Hyperlink Name="lnkWhatsHappening" NavigateUri="https://docs.microsoft.com/en-us/azure/azure-government/documentation-government-get-started-connect-with-vs" 
+                           RequestNavigate="lnkWhatsHappening_RequestNavigate" ToolTip="Click to read about AAD config file">What's happening?</Hyperlink>
+            </TextBlock>
+            <TextBlock Name="lnkViewConfig" Margin="20,0,0,0">
+                <Hyperlink Click="lnkViewConfig_Click">View config file</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+
+</Window>
