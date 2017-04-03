@@ -10,7 +10,7 @@ on the official Visual Studio extension gallery.
 
 ## 1.0
 
-**2017-04-02**
+**2017-04-03**
 
 - [x] Initial Release
 - [ ] Support for Azure Government, Azure Germany, and Azure China
