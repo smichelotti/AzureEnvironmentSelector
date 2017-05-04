@@ -22,6 +22,7 @@ namespace Michelotti.AzureEnvironmentSelector
             this.dte = dte;
             InitializeComponent();
 
+            this.cbEnv.ItemsSource = Constants.CloudList;
             this.lblMode.Content = $"Connected to: {originalConnection}";
             this.CheckModeSetUI();
         }
@@ -50,17 +51,15 @@ namespace Michelotti.AzureEnvironmentSelector
 
         private void cbEnv_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            switch (cbEnv.SelectedValue as string)
-            {
-                case Clouds.Azure:
-                    configFileMgr.DeleteAadConfigFile();
-                    break;
-                case Clouds.AzureGovernment:
-                    configFileMgr.CreateGovConfigFile();
-                    break;
-                default:
+            var cloudItem = cbEnv.SelectedItem as CloudItem;
 
-                    break;
+            if (cloudItem.Name == Clouds.Azure)
+            {
+                configFileMgr.DeleteAadConfigFile();
+            }
+            else
+            {
+                configFileMgr.CreateCloudEnvConfig(cloudItem);
             }
 
             CheckModeSetUI();

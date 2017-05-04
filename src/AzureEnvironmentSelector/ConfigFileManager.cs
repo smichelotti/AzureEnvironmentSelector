@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,11 +19,11 @@ namespace Michelotti.AzureEnvironmentSelector
             }
         }
 
-        public void CreateGovConfigFile()
+        public void CreateCloudEnvConfig(CloudItem cloudItem)
         {
             VerifyDirectory();
             var configFilePath = GetConfigFilePath();
-            File.WriteAllText(configFilePath, Constants.AadConfigFile);
+            File.WriteAllText(configFilePath, cloudItem.AadConfig);
 
             void VerifyDirectory()
             {
@@ -39,7 +40,9 @@ namespace Michelotti.AzureEnvironmentSelector
             var configFilePath = GetConfigFilePath();
             if (File.Exists(configFilePath))
             {
-                return Clouds.AzureGovernment;
+                var json = File.ReadAllText(configFilePath);
+                dynamic config = JObject.Parse(json);
+                return Constants.CloudNames[(string)config.EnvironmentName];
             }
             else
             {
