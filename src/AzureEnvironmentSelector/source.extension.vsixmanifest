@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="AzureEnvironmentSelector.Michelotti.8cae9984-6f56-46d8-8714-c11da3eee062" Version="1.0" Language="en-US" Publisher="Steve Michelotti" />
+    <Identity Id="AzureEnvironmentSelector.Michelotti.8cae9984-6f56-46d8-8714-c11da3eee062" Version="1.1" Language="en-US" Publisher="Steve Michelotti" />
     <DisplayName>Azure Environment Selector</DisplayName>
     <Description>The fastest and easiest way to connect your Visual Studio instance to Azure Government, Azure Commercial, etc.</Description>
   </Metadata>

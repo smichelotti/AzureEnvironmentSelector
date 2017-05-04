@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace Michelotti.AzureEnvironmentSelector
 {
@@ -18,11 +19,13 @@ namespace Michelotti.AzureEnvironmentSelector
             }
         }
 
-        public void CreateGovConfigFile()
+        public void CreateSovereignCloudConfig(CloudSetting setting)
         {
+            string jsonconfig = null;
+            jsonconfig = setting.JsonConfig;
             VerifyDirectory();
             var configFilePath = GetConfigFilePath();
-            File.WriteAllText(configFilePath, Constants.AadConfigFile);
+            File.WriteAllText(configFilePath, jsonconfig);
 
             void VerifyDirectory()
             {
@@ -33,20 +36,21 @@ namespace Michelotti.AzureEnvironmentSelector
                 }
             }
         }
-
         public string GetCurrentConnection()
         {
             var configFilePath = GetConfigFilePath();
             if (File.Exists(configFilePath))
             {
-                return Clouds.AzureGovernment;
+                var jsonstr = File.ReadAllText(configFilePath);
+                var dict = (new JavaScriptSerializer()).Deserialize<Dictionary<string, dynamic>>(jsonstr);
+                var cloudname = dict["EnvironmentName"];
+                return Constants.CloudSettings[cloudname].Name;
             }
             else
             {
-                return Clouds.Azure;
+                return Constants.PublicCloudName;
             }
         }
-
 
         #region Private static methods
 
@@ -64,7 +68,7 @@ namespace Michelotti.AzureEnvironmentSelector
             return path;
         }
 
-        private static bool GovConfigFileExists() => File.Exists(GetConfigFilePath());
+        private static bool SovereignConfigFileExists() => File.Exists(GetConfigFilePath());
 
 
         #endregion

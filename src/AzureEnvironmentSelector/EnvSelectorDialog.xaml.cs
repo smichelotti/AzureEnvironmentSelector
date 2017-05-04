@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.Shell.Interop;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 
@@ -15,54 +16,64 @@ namespace Michelotti.AzureEnvironmentSelector
         public bool Restarting { get; private set; } = false;
         private static ConfigFileManager configFileMgr = new ConfigFileManager();
         private static readonly string originalConnection = configFileMgr.GetCurrentConnection();
-
+        internal static readonly Dictionary<string, CloudSetting> cloudSettings = Constants.CloudSettings;
         public EnvSelectorDialog(IVsUIShell shell, EnvDTE.DTE dte)
         {
             this.shell = shell;
             this.dte = dte;
             InitializeComponent();
 
-            this.lblMode.Content = $"Connected to: {originalConnection}";
+            this.cbEnv.DataContext = cloudSettings;
+            this.cbEnv.ItemsSource = cloudSettings;
+            this.lblMode.Content = $"Connected to: {cloudSettings[originalConnection].DisplayName}";
+            cloudSettings.
+            var index = 0;
+            foreach (var item in cbEnv.Items)
+            {
+                var setting = (KeyValuePair<string, CloudSetting>)item;
+                if (setting.Key == originalConnection)
+                {
+                    this.cbEnv.SelectedIndex = index;
+                    break;
+                }
+                index++;
+            }
             this.CheckModeSetUI();
         }
 
         private void CheckModeSetUI()
         {
             var currentConnection = configFileMgr.GetCurrentConnection();
-            this.cbEnv.SelectedValue = currentConnection;
-
             if (originalConnection != currentConnection)
             {
-                var currentModeText = currentConnection;
+                var currentModeText = cloudSettings[currentConnection].DisplayName;
                 this.tbResults.Text = $"Pending change to {currentModeText} connection.\nYou must restart Visual Studio for these changes to take effect.";
                 this.tbResults.Visibility = Visibility.Visible;
                 this.btnRestart.Visibility = Visibility.Visible;
-                this.cbEnv.SelectedValue = currentModeText;
             }
             else
             {
                 this.tbResults.Visibility = Visibility.Collapsed;
                 this.btnRestart.Visibility = Visibility.Collapsed;
             }
-
-            this.lnkViewConfig.Visibility = (currentConnection == Clouds.Azure ? Visibility.Collapsed : Visibility.Visible);
+            this.lnkViewConfig.Visibility = (currentConnection == Constants.PublicCloudName ? Visibility.Collapsed : Visibility.Visible);
         }
+
 
         private void cbEnv_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            switch (cbEnv.SelectedValue as string)
+            if (cbEnv.SelectedItem == null)
+                return;
+            var item = (KeyValuePair<string, CloudSetting>)cbEnv.SelectedItem;
+            CloudSetting newsetting = item.Value;
+            if (newsetting.Name == "AzureCloud")
             {
-                case Clouds.Azure:
-                    configFileMgr.DeleteAadConfigFile();
-                    break;
-                case Clouds.AzureGovernment:
-                    configFileMgr.CreateGovConfigFile();
-                    break;
-                default:
-
-                    break;
+                configFileMgr.DeleteAadConfigFile();
             }
-
+            else
+            {
+                configFileMgr.CreateSovereignCloudConfig(newsetting);
+            }
             CheckModeSetUI();
         }
 
@@ -76,7 +87,6 @@ namespace Michelotti.AzureEnvironmentSelector
         {
             this.Restarting = true;
             this.Close();
-            
         }
 
         private void lnkViewConfig_Click(object sender, RoutedEventArgs e)
