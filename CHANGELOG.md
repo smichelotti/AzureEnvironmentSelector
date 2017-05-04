@@ -15,4 +15,9 @@ on the official Visual Studio extension gallery.
 - [x] Initial Release
 - [ ] Support for Azure Government, Azure Germany, and Azure China
 
+## 1.1
+
+**2017-05-04**
+- [x] Support for Azure Government, Azure Germany, and Azure China
+China and Germany added 
   

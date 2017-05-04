@@ -5,9 +5,9 @@
              Height="200" Width="517" ShowInTaskbar="False" ResizeMode="NoResize"
              Title="Azure Environment Selector"
              WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
-    
+
     <Grid>
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -18,17 +18,21 @@
         <Label Name="lblMode" Grid.Row="0" HorizontalAlignment="Center" Content="Connected to: Azure Commercial" FontSize="20" Margin="2"></Label>
         <StackPanel Orientation="Horizontal" Grid.Row="1">
             <Label Margin="10">Azure Environment:</Label>
-            <ComboBox x:Name="cbEnv" Text="(Select)" Margin="10" Width="200" SelectedValuePath="Content" SelectionChanged="cbEnv_SelectionChanged">
+
+            <ComboBox x:Name="cbEnv" Text="(Select)" Margin="10" Width="200" SelectionChanged="cbEnv_SelectionChanged"  ItemsSource="{Binding Path=cloudSettings}"   DisplayMemberPath="Value.DisplayName" SelectedValuePath="Key">
+                <!--<ComboBox x:Name="cbEnv" Text="(Select)" Margin="10" Width="200" SelectionChanged="cbEnv_SelectionChanged"  ItemsSource="{StaticResource Michelotti.AzureEnvironmentSelector.Constants.CloudSettings}"   DisplayMemberPath="Value.Displayname" SelectedValuePath="Key">-->
+                <!--
                 <ComboBoxItem>Azure Commercial</ComboBoxItem>
                 <ComboBoxItem>Azure Government</ComboBoxItem>
-                <!--<ComboBoxItem>Azure Germany</ComboBoxItem>
-                <ComboBoxItem>Azure China</ComboBoxItem>-->
+                <ComboBoxItem>Azure Germany</ComboBoxItem>
+                <ComboBoxItem>Azure China</ComboBoxItem>
+                -->
             </ComboBox>
         </StackPanel>
 
         <DockPanel Grid.Row="2" >
             <Button Margin="4,10,4,10" DockPanel.Dock="Right" Width="60" Click="Button_Click">Close</Button>
-            
+
             <StackPanel Orientation="Horizontal">
                 <TextBlock Name="tbResults" DockPanel.Dock="Left" Width="360" Background="LightYellow"  TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Center" Margin="4" Padding="2">
                     Pending change to Azure {currentModeText} mode.<LineBreak/>
@@ -48,5 +52,4 @@
             </TextBlock>
         </StackPanel>
     </Grid>
-
 </Window>
