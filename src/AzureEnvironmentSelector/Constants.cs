@@ -47,7 +47,7 @@ namespace Michelotti.AzureEnvironmentSelector
                 }"),
 
             // Ref: https://www.azure.cn/documentation/articles/developerdifferences/
-            ["AzureChinaCloud"] = new CloudSetting("Mooncake", "Azure China",  // Needs review uabble to test
+            ["Mooncake"] = new CloudSetting("Mooncake", "Azure China",  // Needs review uabble to test
                 @"{
 									 ""AuthenticationQueryParameters"": null,
 									 ""AsmEndPoint"": ""https://management.core.chinacloudapi.cn"",

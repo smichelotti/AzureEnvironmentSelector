@@ -26,7 +26,6 @@ namespace Michelotti.AzureEnvironmentSelector
             this.cbEnv.DataContext = cloudSettings;
             this.cbEnv.ItemsSource = cloudSettings;
             this.lblMode.Content = $"Connected to: {cloudSettings[originalConnection].DisplayName}";
-            cloudSettings.
             var index = 0;
             foreach (var item in cbEnv.Items)
             {
