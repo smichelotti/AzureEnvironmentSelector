@@ -7,7 +7,7 @@ true for Azure Germany or Azure China). From within Visual Studio, you can conne
 with tools such as the `Cloud Explorer`, the Azure node in the `Server Explorer`, the main Visual Studio login, 
 and publishing a web app from the `Solution Explorer`.
 
-For Visual Studio 2017, there is a [manual process](https://docs.microsoft.com/en-us/azure/azure-government/documentation-government-get-started-connect-with-vs)
+For Visual Studio 2017, there is a [manual process](https://docs.microsoft.com/en-us/azure/azure-government/documentation-government-get-started-connect-with-vs) **(dead link)**
 you can go through to put an Azure Active Directory config file in place that will enable you 
 to control which environment Visual Studio connects to. This extension **automates** that manual
 process.

@@ -8,6 +8,12 @@
 These are the changes to each version that has been released
 on the official Visual Studio extension gallery.
 
+## 1.2
+
+**2019-08-30**
+
+ - Updated to allow install on VS 2019.
+
 ## 1.1
 
 **2017-05-04**
